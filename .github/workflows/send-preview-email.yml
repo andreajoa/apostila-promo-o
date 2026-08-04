@@ -22,6 +22,6 @@ jobs:
         run: |
           set -euo pipefail
           response=$(curl --fail-with-body --silent --show-error \
-            'https://apostila-promo.vercel.app/api/send-email-preview?key=margareth-20260804-email-link-v2-7c4f')
+            'https://apostila-promo.vercel.app/api/send-email-preview?key=margareth-20260804-email-link-v3-9d2a')
           echo "$response"
           echo "$response" | grep -q '"sent":true'
