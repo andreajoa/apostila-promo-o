@@ -6,6 +6,18 @@ function readBody(request) {
   try { return JSON.parse(request.body || '{}'); } catch { return {}; }
 }
 
+function cleanText(value, maxLength) {
+  return String(value || '').trim().replace(/\s+/g, ' ').slice(0, maxLength);
+}
+
+function cleanWhatsapp(value) {
+  return String(value || '').replace(/\D/g, '').slice(0, 15);
+}
+
+function validEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
@@ -13,9 +25,17 @@ export default async function handler(request, response) {
   }
 
   try {
-    const { sku } = readBody(request);
-    const offer = getOffer(String(sku || ''));
+    const body = readBody(request);
+    const sku = cleanText(body.sku, 80);
+    const name = cleanText(body.name, 120);
+    const email = cleanText(body.email, 180).toLowerCase();
+    const whatsapp = cleanWhatsapp(body.whatsapp);
+    const offer = getOffer(sku);
+
     if (!offer) return response.status(400).json({ error: 'Produto inválido.' });
+    if (name.length < 3) return response.status(400).json({ error: 'Informe seu nome completo.' });
+    if (!validEmail(email)) return response.status(400).json({ error: 'Informe um e-mail válido.' });
+    if (whatsapp.length < 10) return response.status(400).json({ error: 'Informe um WhatsApp válido com DDD.' });
 
     const siteUrl = resolveSiteUrl(request);
     if (!siteUrl) throw new Error('SITE_URL não configurada.');
@@ -28,6 +48,7 @@ export default async function handler(request, response) {
     params.set('locale', 'pt-BR');
     params.set('payment_method_types[0]', 'card');
     params.set('customer_creation', 'always');
+    params.set('customer_email', email);
     params.set('billing_address_collection', 'auto');
     params.set('line_items[0][quantity]', '1');
     params.set('line_items[0][price_data][currency]', 'brl');
@@ -36,32 +57,27 @@ export default async function handler(request, response) {
     params.set('line_items[0][price_data][product_data][description]', offer.description);
     params.set('metadata[sku]', offer.id);
     params.set('metadata[campaign]', CAMPAIGN_ID);
+    params.set('metadata[buyer_name]', name);
+    params.set('metadata[buyer_email]', email);
+    params.set('metadata[buyer_whatsapp]', whatsapp);
+    params.set('payment_intent_data[metadata][sku]', offer.id);
+    params.set('payment_intent_data[metadata][campaign]', CAMPAIGN_ID);
+    params.set('payment_intent_data[metadata][buyer_name]', name);
+    params.set('payment_intent_data[metadata][buyer_email]', email);
+    params.set('payment_intent_data[metadata][buyer_whatsapp]', whatsapp);
     params.set('submit_type', 'pay');
 
     if (offer.id === 'colecao-completa') {
       params.set('payment_method_options[card][installments][enabled]', 'true');
     }
 
-    const session = await stripeRequest('/checkout/sessions', {
-      method: 'POST',
-      body: params.toString(),
-    });
-
-    if (!session.client_secret) {
-      throw new Error('A Stripe não devolveu o client_secret do checkout incorporado.');
-    }
+    const session = await stripeRequest('/checkout/sessions', { method:'POST', body:params.toString() });
+    if (!session.client_secret) throw new Error('A Stripe não devolveu o client_secret do checkout incorporado.');
 
     response.setHeader('Cache-Control', 'private, no-store, max-age=0');
-    return response.status(200).json({
-      clientSecret: session.client_secret,
-      installmentsEnabled: offer.id === 'colecao-completa',
-    });
+    return response.status(200).json({ clientSecret:session.client_secret, sessionId:session.id, offer:{ id:offer.id, name:offer.name, amount:offer.amount } });
   } catch (error) {
     console.error('embedded_checkout_session_error', error);
-    return response.status(500).json({
-      error: error instanceof Error
-        ? `Não foi possível iniciar o pagamento: ${error.message}`
-        : 'Não foi possível iniciar o pagamento agora.',
-    });
+    return response.status(500).json({ error:error instanceof Error ? `Não foi possível iniciar o pagamento: ${error.message}` : 'Não foi possível iniciar o pagamento agora.' });
   }
 }
