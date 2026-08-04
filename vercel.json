@@ -2,12 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/visual-asset.js": {
-      "includeFiles": "assets/*.b64"
+      "includeFiles": "assets/funnel-atlas-mini.b64"
     }
   },
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/api/favicon" },
-    { "source": "/favicon.svg", "destination": "/api/favicon" }
+    { "source": "/favicon.png", "destination": "/api/favicon" },
+    { "source": "/apple-touch-icon.png", "destination": "/api/favicon" }
   ],
   "headers": [
     {
