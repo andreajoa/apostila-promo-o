@@ -29,22 +29,23 @@ jobs:
           test "$status" = "200"
           grep -q "Coleção Margareth Almeida" /tmp/home.html
 
-      - name: Verificar endpoints dos banners
+      - name: Verificar imagens dos banners
         shell: bash
         run: |
           set -euo pipefail
           for name in a1 a2 a3 a4 b1 b2 b3 b4; do
-            URL="https://apostila-promo.vercel.app/api/campaign-banner?name=${name}&verify=${GITHUB_SHA}"
+            URL="https://apostila-promo.vercel.app/assets/campaign-${name}.webp?verify=${GITHUB_SHA}"
             status=""
             for attempt in {1..12}; do
-              status=$(curl -L -sS -D /tmp/banner.headers -o /tmp/banner.svg -w '%{http_code}' "$URL" || true)
-              echo "[$name] Tentativa $attempt: HTTP $status; bytes $(wc -c < /tmp/banner.svg 2>/dev/null || echo 0)"
+              status=$(curl -L -sS -D /tmp/banner.headers -o /tmp/banner.webp -w '%{http_code}' "$URL" || true)
+              echo "[$name] Tentativa $attempt: HTTP $status; bytes $(wc -c < /tmp/banner.webp 2>/dev/null || echo 0)"
               if [ "$status" = "200" ]; then break; fi
               sleep 10
             done
             test "$status" = "200"
-            grep -i -q '^content-type: image/svg+xml' /tmp/banner.headers
-            grep -q '<svg' /tmp/banner.svg
+            test "$(wc -c < /tmp/banner.webp)" -gt 10000
+            test "$(head -c 4 /tmp/banner.webp)" = "RIFF"
+            test "$(dd if=/tmp/banner.webp bs=1 skip=8 count=4 2>/dev/null)" = "WEBP"
             echo "[$name] OK"
           done
 

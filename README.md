@@ -48,7 +48,7 @@ Copie o segredo de assinatura do endpoint, iniciado por `whsec_`, para a variáv
 - `index.html`: página de vendas;
 - `app.js`: catálogo, imagens, cadastro, checkout e downsell;
 - `funnel.css`: apresentação do funil e do checkout;
-- `api/campaign-banner.js`: gera as imagens (banners) da campanha como SVG, sob demanda;
+- `assets/campaign-a1.webp` … `campaign-b4.webp`: banners reais da campanha, servidos como arquivos estáticos;
 - `sucesso.html` + `success.js`: biblioteca, upsell e cross-sell;
 - `api/create-checkout-session.js`: cria a sessão Stripe e registra o comprador;
 - `api/session.js`: confirma a compra e devolve os acessos;

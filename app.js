@@ -53,7 +53,7 @@ function addProjectStyles() {
 }
 
 function campaignImage(name, label='') {
-  return `<div class="campaign-image atlas-${name}" role="img" aria-label="${label}"><img src="/api/campaign-banner?name=${encodeURIComponent(name)}" alt="" aria-hidden="true" decoding="async" loading="lazy"></div>`;
+  return `<div class="campaign-image atlas-${name}" role="img" aria-label="${label}"><img src="/assets/campaign-${encodeURIComponent(name)}.webp" alt="" aria-hidden="true" decoding="async" loading="lazy"></div>`;
 }
 
 function coverUrl(driveId) {
