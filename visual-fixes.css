@@ -29,9 +29,18 @@
 .checkout-conversion-banner .campaign-image{min-height:340px;background:#f3ded0}
 .downsell-panel .campaign-image,.post-offer .campaign-image{min-height:220px;background:#f3ded0}
 
+/* Corrige a lista de benefícios da oferta.
+   A regra original estiliza todo span como o círculo do check; o texto precisa ser livre. */
+.check-list li{align-items:start;min-width:0;column-gap:12px;line-height:1.5}
+.check-list li>span:first-child{flex:none;width:25px!important;height:25px!important;border-radius:50%!important;background:rgba(166,75,42,.12)!important;color:var(--terra)!important;display:grid!important;place-items:center!important;font-weight:900!important;line-height:1!important;margin-top:2px}
+.check-list li>.check-text{width:auto!important;height:auto!important;min-width:0!important;border-radius:0!important;background:transparent!important;color:#4f5e70!important;display:block!important;place-items:initial!important;font-weight:400!important;line-height:1.55!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important}
+.check-list li>.check-text strong{display:inline;color:var(--terra);font-weight:900}
+
 @media(max-width:1120px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){
   .catalog-grid{grid-template-columns:1fr}
   .product-card{max-width:520px;width:100%;margin-inline:auto}
   .product-mockup-zone{aspect-ratio:4/5}
+  .check-list{gap:18px}
+  .check-list li{grid-template-columns:28px minmax(0,1fr);column-gap:11px}
 }
