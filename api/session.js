@@ -14,12 +14,7 @@ export default async function handler(request, response) {
     const session = await stripeRequest(`/checkout/sessions/${encodeURIComponent(sessionId)}`);
     const sku = String(session.metadata?.sku || '');
     const offer = getOffer(sku);
-    const paid =
-      session.status === 'complete' &&
-      session.payment_status === 'paid' &&
-      session.currency === 'brl' &&
-      session.amount_total === offer?.amount &&
-      session.metadata?.campaign === CAMPAIGN_ID;
+    const paid = session.status === 'complete' && session.payment_status === 'paid' && session.currency === 'brl' && session.amount_total === offer?.amount && session.metadata?.campaign === CAMPAIGN_ID;
     if (!paid || !offer) return response.status(403).json({ error: 'Pagamento ainda não confirmado.' });
 
     const items = getEntitlements(sku).map(getPublicItem).filter(Boolean);
@@ -27,8 +22,14 @@ export default async function handler(request, response) {
     return response.status(200).json({
       paid: true,
       sku,
-      offer: { id: offer.id, name: offer.name, amount: offer.amount },
-      email: session.customer_details?.email || session.customer_email || null,
+      offer: { id:offer.id, name:offer.name, amount:offer.amount },
+      buyer: {
+        name: session.metadata?.buyer_name || session.customer_details?.name || null,
+        email: session.metadata?.buyer_email || session.customer_details?.email || session.customer_email || null,
+        whatsapp: session.metadata?.buyer_whatsapp || null,
+      },
+      email: session.metadata?.buyer_email || session.customer_details?.email || session.customer_email || null,
+      emailDeliveryConfigured: Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM && process.env.STRIPE_WEBHOOK_SECRET),
       items,
     });
   } catch (error) {
