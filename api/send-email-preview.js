@@ -1,6 +1,6 @@
 import { sendLibraryEmail } from './_email.js';
 
-const PREVIEW_KEY = 'margareth-20260804-email-link-v2-7c4f';
+const PREVIEW_KEY = 'margareth-20260804-email-link-v3-9d2a';
 const PREVIEW_TO = 'andremuseu@gmail.com';
 
 export default async function handler(request, response) {
@@ -20,9 +20,9 @@ export default async function handler(request, response) {
       apiKey,
       to:PREVIEW_TO,
       name:'Margareth',
-      offerName:'Coleção Completa Margareth Almeida',
+      offerName:'Coleção Completa Margareth Almeida — BOTÃO CORRIGIDO',
       libraryUrl:`${siteUrl}/biblioteca-demo.html`,
-      idempotencyKey:'preview-andremuseu-link-clicavel-20260804-v2',
+      idempotencyKey:'preview-andremuseu-link-clicavel-20260804-v3',
       preview:true,
     });
 
