@@ -2,13 +2,8 @@ import { CAMPAIGN_ID, getEntitlements, getOffer, getPublicItem } from './_catalo
 import { stripeRequest, validSessionId } from './_stripe.js';
 
 function resendConfigured() {
-  const sender =
-    process.env.EMAIL_FROM ||
-    process.env.RESEND_FROM ||
-    process.env.RESEND_FROM_EMAIL;
   return Boolean(
     process.env.RESEND_API_KEY &&
-    sender &&
     process.env.STRIPE_WEBHOOK_SECRET
   );
 }
@@ -58,6 +53,7 @@ export default async function handler(request, response) {
       },
       email:buyerEmail,
       emailDeliveryConfigured:resendConfigured(),
+      libraryUrl:`/sucesso.html?session_id=${encodeURIComponent(sessionId)}`,
       items,
     });
   } catch (error) {
