@@ -1,0 +1,73 @@
+name: Verificar produção
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Aguardar e verificar página principal
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://apostila-promo.vercel.app"
+          for attempt in {1..30}; do
+            status=$(curl -L -sS -o /tmp/home.html -w '%{http_code}' "$URL/?verify=${GITHUB_SHA}" || true)
+            echo "Tentativa $attempt: homepage HTTP $status"
+            if [ "$status" = "200" ] && grep -q "Coleção Margareth Almeida" /tmp/home.html; then
+              break
+            fi
+            sleep 10
+          done
+          test "$status" = "200"
+          grep -q "Coleção Margareth Almeida" /tmp/home.html
+
+      - name: Verificar arquivo base64 estático
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://apostila-promo.vercel.app/assets/funnel-atlas-mini.b64?verify=${GITHUB_SHA}"
+          status=$(curl -L -sS -o /tmp/atlas.b64 -w '%{http_code}' "$URL")
+          echo "Base64 HTTP $status; bytes $(wc -c < /tmp/atlas.b64)"
+          test "$status" = "200"
+          test "$(wc -c < /tmp/atlas.b64)" -gt 100000
+          head -c 4 /tmp/atlas.b64 | grep -q 'UklG'
+
+      - name: Verificar endpoint do banner
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://apostila-promo.vercel.app/api/visual-asset?name=funnel&verify=${GITHUB_SHA}"
+          for attempt in {1..12}; do
+            status=$(curl -L -sS -D /tmp/banner.headers -o /tmp/banner.webp -w '%{http_code}' "$URL" || true)
+            echo "Tentativa $attempt: banner HTTP $status; bytes $(wc -c < /tmp/banner.webp 2>/dev/null || echo 0)"
+            if [ "$status" = "200" ]; then break; fi
+            cat /tmp/banner.webp 2>/dev/null || true
+            sleep 10
+          done
+          test "$status" = "200"
+          grep -i -q '^content-type: image/webp' /tmp/banner.headers
+          test "$(wc -c < /tmp/banner.webp)" -gt 100000
+          test "$(head -c 4 /tmp/banner.webp)" = "RIFF"
+          test "$(dd if=/tmp/banner.webp bs=1 skip=8 count=4 2>/dev/null)" = "WEBP"
+          echo "Cabeçalhos do banner:"
+          cat /tmp/banner.headers
+
+      - name: Verificar favicon
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://apostila-promo.vercel.app/favicon.ico?verify=${GITHUB_SHA}"
+          status=$(curl -L -sS -D /tmp/favicon.headers -o /tmp/favicon.svg -w '%{http_code}' "$URL")
+          echo "Favicon HTTP $status; bytes $(wc -c < /tmp/favicon.svg)"
+          test "$status" = "200"
+          grep -i -q '^content-type: image/svg+xml' /tmp/favicon.headers
+          grep -q '<svg' /tmp/favicon.svg
+          cat /tmp/favicon.headers
