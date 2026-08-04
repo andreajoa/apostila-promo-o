@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#09274B" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Sua biblioteca | Margareth Almeida</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="success-page">
+  <main class="container success-shell">
+    <a class="brand" href="/" aria-label="Voltar para a página inicial"><span class="brand-mark">MA</span><span class="brand-copy"><strong>Margareth Almeida</strong><small>Biblioteca digital</small></span></a>
+    <section id="purchaseState" class="loading-card"><div class="spinner"></div><h1>Confirmando seu pagamento...</h1><p>Não feche esta página enquanto a Stripe valida a compra.</p></section>
+    <section id="library" hidden>
+      <div class="success-head"><div class="success-icon">✓</div><p class="eyebrow">PAGAMENTO CONFIRMADO</p><h1>Sua biblioteca está liberada.</h1><p id="purchaseSummary"></p></div>
+      <div class="library-grid" id="libraryGrid"></div>
+      <p style="text-align:center;color:var(--muted);font-size:.75rem;margin-top:28px">Guarde o endereço desta página. Os acessos dependem da sessão de compra confirmada.</p>
+    </section>
+  </main>
+  <script src="/success.js" defer></script>
+</body>
+</html>
