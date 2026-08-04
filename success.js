@@ -128,7 +128,7 @@ async function load(force = false) {
     grid.innerHTML = data.items.map((item) => {
       const isPdf = item.type === 'pdf';
       const href = `/api/access?session_id=${encodeURIComponent(sessionId)}&item=${encodeURIComponent(item.id)}`;
-      return `<article class="library-item"><span>${escapeHtml(isPdf ? (item.category || 'APOSTILA DIGITAL') : 'RECURSO INTERATIVO')}</span><h2>${escapeHtml(item.name)}</h2><a href="${href}" ${isPdf ? '' : 'target="_blank" rel="noopener"'}>${isPdf ? 'Ver e baixar apostila' : 'Abrir atividade'} →</a></article>`;
+      return `<article class="library-item"><span>${escapeHtml(isPdf ? (item.category || 'APOSTILA DIGITAL') : 'RECURSO INTERATIVO')}</span><h2>${escapeHtml(item.name)}</h2><a href="${href}" target="_blank" rel="noopener">${isPdf ? 'Ver e baixar apostila' : 'Abrir atividade'} →</a></article>`;
     }).join('');
 
     if (!document.querySelector('.post-purchase-funnel')) {
