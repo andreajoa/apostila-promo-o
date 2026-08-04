@@ -22,8 +22,9 @@ export default async function handler(request, response) {
 
     const params = new URLSearchParams();
     params.set('mode', 'payment');
-    params.set('success_url', `${siteUrl}/sucesso.html?session_id={CHECKOUT_SESSION_ID}`);
-    params.set('cancel_url', `${siteUrl}/#apostilas`);
+    params.set('ui_mode', 'embedded');
+    params.set('return_url', `${siteUrl}/sucesso.html?session_id={CHECKOUT_SESSION_ID}`);
+    params.set('redirect_on_completion', 'always');
     params.set('locale', 'pt-BR');
     params.set('payment_method_types[0]', 'card');
     params.set('customer_creation', 'always');
@@ -37,14 +38,30 @@ export default async function handler(request, response) {
     params.set('metadata[campaign]', CAMPAIGN_ID);
     params.set('submit_type', 'pay');
 
+    if (offer.id === 'colecao-completa') {
+      params.set('payment_method_options[card][installments][enabled]', 'true');
+    }
+
     const session = await stripeRequest('/checkout/sessions', {
       method: 'POST',
       body: params.toString(),
     });
 
-    return response.status(200).json({ url: session.url });
+    if (!session.client_secret) {
+      throw new Error('A Stripe não devolveu o client_secret do checkout incorporado.');
+    }
+
+    response.setHeader('Cache-Control', 'private, no-store, max-age=0');
+    return response.status(200).json({
+      clientSecret: session.client_secret,
+      installmentsEnabled: offer.id === 'colecao-completa',
+    });
   } catch (error) {
-    console.error('checkout_session_error', error);
-    return response.status(500).json({ error: 'Não foi possível iniciar o pagamento agora.' });
+    console.error('embedded_checkout_session_error', error);
+    return response.status(500).json({
+      error: error instanceof Error
+        ? `Não foi possível iniciar o pagamento: ${error.message}`
+        : 'Não foi possível iniciar o pagamento agora.',
+    });
   }
 }
