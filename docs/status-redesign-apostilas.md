@@ -23,6 +23,10 @@ Atualizado em 04/08/2026.
 - 11 - Protocolo ESPERANCA
 - 12 - Protocolo ACOLHER
 
+## Recursos compartilhados
+
+Os 16 pictogramas compartilhados foram criados e enviados para `00 - Recursos Compartilhados`: pausa, ajuda, sair, dor, fones, agua, banheiro, primeiro-depois, temporizador, CAA, corpo, ambiente, comunicacao, escola, familia e rede de apoio.
+
 ## Imagens ja produzidas e organizadas
 
 1. `tdah-vida-real/tdah-06-registro-quatorze-dias.webp`
@@ -34,9 +38,9 @@ Atualizado em 04/08/2026.
 
 ## Situacao do primeiro lote
 
-### Apostila CALMA
+### Apostila CALMA - concluida
 
-A pasta de imagens ainda esta vazia. Devem ser produzidos os seis arquivos definidos no manifesto:
+As seis imagens foram criadas, renomeadas conforme o manifesto e enviadas para a pasta `01 - CALMA`:
 
 - `calma-01-capa-familia-em-regulacao.webp`
 - `calma-02-adulto-reduzindo-carga.webp`
@@ -44,6 +48,8 @@ A pasta de imagens ainda esta vazia. Devem ser produzidos os seis arquivos defin
 - `calma-04-frases-que-orientam.webp`
 - `calma-05-cuidador-pausa-e-reparo.webp`
 - `calma-06-plano-calma-preenchivel.webp`
+
+A apostila foi rediagramada em 8 paginas A4, revisada visualmente e o PDF do Google Drive foi substituido preservando o ID `1nkdWZ3nCIk4zkFsr3XolW8chM5QOBHsz` usado pelo catalogo e pela entrega pos-compra.
 
 ### Antes da Crise
 
@@ -55,13 +61,12 @@ Existe 1 de 6 imagens: `durante-a-crise-04-preferencias-sensoriais.webp`.
 
 ## Proxima sequencia de execucao
 
-1. Criar os pictogramas compartilhados de comunicacao e regulacao.
-2. Finalizar as seis imagens da Apostila CALMA.
-3. Finalizar as imagens restantes de Antes da Crise.
-4. Finalizar as imagens restantes de Durante a Crise.
-5. Diagramar e revisar visualmente essas tres apostilas.
-6. Substituir os PDFs no Drive preservando os IDs existentes.
-7. Conferir a atualizacao automatica das capas no catalogo e a entrega pos-compra.
+1. Finalizar as seis imagens restantes de Antes da Crise.
+2. Diagramar, revisar e substituir o PDF de Antes da Crise preservando o ID existente.
+3. Finalizar as cinco imagens restantes de Durante a Crise.
+4. Diagramar, revisar e substituir o PDF de Durante a Crise preservando o ID existente.
+5. Seguir os lotes seguintes definidos em `docs/plano-visual-12-apostilas.md`.
+6. Conferir a atualizacao automatica das capas no catalogo e a entrega pos-compra.
 
 ## Regra de nomes
 
