@@ -1,14 +1,25 @@
-name: Prévia de e-mail desativada
+name: Validar botão do e-mail
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  disabled:
+  send-preview:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - name: Informação
-        run: echo "O envio temporário de prévia foi concluído e desativado."
+      - name: Aguardar o deploy da Vercel
+        run: sleep 45
+      - name: Enviar nova prévia com botão clicável
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(curl --fail-with-body --silent --show-error \
+            'https://apostila-promo.vercel.app/api/send-email-preview?key=margareth-20260804-email-link-v2-7c4f')
+          echo "$response"
+          echo "$response" | grep -q '"sent":true'
