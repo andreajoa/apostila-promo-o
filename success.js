@@ -4,16 +4,21 @@ const grid = document.getElementById('libraryGrid');
 const summary = document.getElementById('purchaseSummary');
 const sessionId = new URLSearchParams(location.search).get('session_id');
 
-function addStyles() {
-  if (document.querySelector('link[href="/funnel.css"]')) return;
+function ensureStylesheet(href) {
+  if (document.querySelector(`link[href="${href}"]`)) return;
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = '/funnel.css';
+  link.href = href;
   document.head.appendChild(link);
 }
 
-function atlas(name, label = '') {
-  return `<div class="campaign-image atlas atlas-${name}" role="img" aria-label="${label}"><img src="/assets/funnel-atlas.webp" alt="" aria-hidden="true"></div>`;
+function addStyles() {
+  ensureStylesheet('/funnel.css');
+  ensureStylesheet('/visual-fixes.css');
+}
+
+function campaignImage(name, label = '') {
+  return `<div class="campaign-image atlas atlas-${name}" role="img" aria-label="${label}"><img src="/api/visual-asset?name=funnel&v=3" alt="" aria-hidden="true" decoding="async"></div>`;
 }
 
 function fail(message) {
@@ -23,7 +28,7 @@ function fail(message) {
 
 function postPurchaseHtml(data) {
   const emailMessage = data.emailDeliveryConfigured && data.buyer?.email
-    ? `O link desta biblioteca também foi enviado para <strong>${data.buyer.email}</strong>.`
+    ? `O acesso e os links dos materiais também serão enviados para <strong>${data.buyer.email}</strong>.`
     : 'Guarde o endereço desta página para acessar novamente os itens da compra.';
 
   return `<section class="post-purchase-funnel" aria-label="Ofertas complementares">
@@ -36,7 +41,7 @@ function postPurchaseHtml(data) {
     </div>
 
     <div class="post-offer">
-      ${atlas('b3', 'Oferta complementar de materiais premium')}
+      ${campaignImage('b3', 'Oferta complementar de materiais premium')}
       <div class="post-offer-copy">
         <p class="eyebrow">UPSELL OPCIONAL</p>
         <h2>Amplie as atividades de atenção e experiências sensoriais.</h2>
@@ -50,7 +55,7 @@ function postPurchaseHtml(data) {
     </div>
 
     <div class="post-offer">
-      ${atlas('b2', 'Recursos digitais interativos para celular, tablet e computador')}
+      ${campaignImage('b2', 'Recursos digitais interativos para celular, tablet e computador')}
       <div class="post-offer-copy">
         <p class="eyebrow">CROSS-SELL DE EXPERIÊNCIA</p>
         <h2>Continue a prática com recursos interativos.</h2>
@@ -70,7 +75,7 @@ async function load() {
   if (!sessionId) return fail('A identificação da compra não foi encontrada.');
 
   try {
-    const response = await fetch(`/api/session?session_id=${encodeURIComponent(sessionId)}`, { cache: 'no-store' });
+    const response = await fetch(`/api/session?session_id=${encodeURIComponent(sessionId)}`, { cache:'no-store' });
     const data = await response.json();
     if (!response.ok || !data.paid) throw new Error(data.error || 'Pagamento ainda não confirmado.');
 
@@ -88,12 +93,12 @@ async function load() {
     library.hidden = false;
 
     window.dataLayer?.push({
-      event: 'purchase',
-      ecommerce: {
-        transaction_id: sessionId,
-        value: data.offer.amount / 100,
-        currency: 'BRL',
-        items: [{ item_id: data.sku, item_name: data.offer.name }],
+      event:'purchase',
+      ecommerce:{
+        transaction_id:sessionId,
+        value:data.offer.amount / 100,
+        currency:'BRL',
+        items:[{ item_id:data.sku, item_name:data.offer.name }],
       },
     });
   } catch (error) {
