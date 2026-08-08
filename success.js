@@ -148,6 +148,20 @@ async function load(force = false) {
         items:[{ item_id:data.sku, item_name:data.offer.name }],
       },
     });
+
+    window.tdahPixel?.trackOnce(
+      `purchase_${sessionId}`,
+      'Purchase',
+      {
+        content_ids:[data.sku],
+        content_name:data.offer.name,
+        content_type:'product',
+        value:data.offer.amount / 100,
+        currency:'BRL',
+        num_items:1,
+      },
+      { eventID:`purchase_${sessionId}` },
+    );
   } catch (error) {
     fail(error instanceof Error ? error.message : 'Não foi possível validar a compra.');
   }
