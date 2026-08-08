@@ -269,6 +269,14 @@ async function submitLead(event) {
             items:[{ item_id:activeSku, item_name:offers[activeSku].name }],
           },
         });
+        window.tdahPixel?.track('InitiateCheckout', {
+          content_ids:[activeSku],
+          content_name:offers[activeSku].name,
+          content_type:'product',
+          value:offers[activeSku].amount / 100,
+          currency:'BRL',
+          num_items:1,
+        });
         return data.clientSecret;
       },
     });
