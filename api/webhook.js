@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import { getOffer } from './_catalog.js';
 import { sendLibraryEmail } from './_email.js';
+import { recordAnalyticsEvent } from './_analytics.js';
 
 export const config = { api: { bodyParser: false } };
 
@@ -57,6 +58,36 @@ async function deliverPurchaseEmail(session, eventId) {
   });
 }
 
+function analyticsId(value, fallback) {
+  const id = String(value || '').trim().slice(0, 120);
+  return /^[A-Za-z0-9:_-]{8,120}$/.test(id) ? id : fallback;
+}
+
+async function recordPurchaseAnalytics(session, eventId) {
+  const metadata = session.metadata || {};
+  const offer = getOffer(String(metadata.sku || ''));
+  const sessionId = analyticsId(metadata.analytics_session_id, `stripe:${session.id}`);
+  const visitorId = analyticsId(metadata.analytics_visitor_id, `stripe:${session.id}`);
+  const parentSessionId = analyticsId(metadata.analytics_parent_session_id, '');
+
+  return recordAnalyticsEvent({
+    event_id:analyticsId(`stripe:${eventId}`, `stripe:${session.id}`),
+    session_id:sessionId,
+    visitor_id:visitorId,
+    parent_session_id:parentSessionId,
+    event_name:'purchase',
+    path:'/sucesso.html',
+    landing_path:'/',
+    source:String(metadata.analytics_source || '').slice(0, 120),
+    medium:String(metadata.analytics_medium || '').slice(0, 80),
+    campaign:String(metadata.analytics_campaign || metadata.campaign || '').slice(0, 240),
+    product_id:String(metadata.sku || '').slice(0, 120),
+    product_name:String(offer?.name || session.custom_text?.submit?.message || 'Apostilas Margareth Almeida').slice(0, 500),
+    value_cents:Number(session.amount_total || 0),
+    transaction_id:String(session.id || '').slice(0, 160),
+  }, 'apostila_combo');
+}
+
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
@@ -75,6 +106,7 @@ export default async function handler(request, response) {
 
     const event = JSON.parse(rawBody.toString('utf8'));
     let emailDelivered = null;
+    let analyticsRecorded = null;
 
     if (
       event.type === 'checkout.session.completed' ||
@@ -89,10 +121,17 @@ export default async function handler(request, response) {
           emailDelivered = false;
           console.error('resend_delivery_error', emailError);
         }
+        try {
+          await recordPurchaseAnalytics(session, event.id);
+          analyticsRecorded = true;
+        } catch (analyticsError) {
+          analyticsRecorded = false;
+          console.error('purchase_analytics_error', analyticsError);
+        }
       }
     }
 
-    return response.status(200).json({ received:true, emailDelivered });
+    return response.status(200).json({ received:true, emailDelivered, analyticsRecorded });
   } catch (error) {
     console.error('stripe_webhook_error', error);
     return response.status(500).json({

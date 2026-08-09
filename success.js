@@ -139,6 +139,14 @@ async function load(force = false) {
     library.hidden = false;
     bindLibraryActions();
 
+    window.maAnalytics?.track('purchase_page', {
+      product_id:data.sku,
+      product_name:data.offer.name,
+      value_cents:data.offer.amount,
+      transaction_id:sessionId,
+      section:'biblioteca',
+    }, true);
+
     window.dataLayer?.push({
       event:'purchase',
       ecommerce:{

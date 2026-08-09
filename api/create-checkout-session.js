@@ -18,6 +18,11 @@ function validEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function cleanAnalyticsId(value) {
+  const id = String(value || '').trim().slice(0, 120);
+  return /^[A-Za-z0-9:_-]{8,120}$/.test(id) ? id : '';
+}
+
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
@@ -30,6 +35,13 @@ export default async function handler(request, response) {
     const name = cleanText(body.name, 120);
     const email = cleanText(body.email, 180).toLowerCase();
     const whatsapp = cleanWhatsapp(body.whatsapp);
+    const analytics = body.analytics && typeof body.analytics === 'object' ? body.analytics : {};
+    const analyticsSessionId = cleanAnalyticsId(analytics.sessionId);
+    const analyticsVisitorId = cleanAnalyticsId(analytics.visitorId);
+    const analyticsParentSessionId = cleanAnalyticsId(analytics.parentSessionId);
+    const analyticsSource = cleanText(analytics.source, 120);
+    const analyticsMedium = cleanText(analytics.medium, 80);
+    const analyticsCampaign = cleanText(analytics.campaign, 240);
     const offer = getOffer(sku);
 
     if (!offer) return response.status(400).json({ error: 'Produto inválido.' });
@@ -60,11 +72,20 @@ export default async function handler(request, response) {
     params.set('metadata[buyer_name]', name);
     params.set('metadata[buyer_email]', email);
     params.set('metadata[buyer_whatsapp]', whatsapp);
+    if (analyticsSessionId) params.set('metadata[analytics_session_id]', analyticsSessionId);
+    if (analyticsVisitorId) params.set('metadata[analytics_visitor_id]', analyticsVisitorId);
+    if (analyticsParentSessionId) params.set('metadata[analytics_parent_session_id]', analyticsParentSessionId);
+    if (analyticsSource) params.set('metadata[analytics_source]', analyticsSource);
+    if (analyticsMedium) params.set('metadata[analytics_medium]', analyticsMedium);
+    if (analyticsCampaign) params.set('metadata[analytics_campaign]', analyticsCampaign);
     params.set('payment_intent_data[metadata][sku]', offer.id);
     params.set('payment_intent_data[metadata][campaign]', CAMPAIGN_ID);
     params.set('payment_intent_data[metadata][buyer_name]', name);
     params.set('payment_intent_data[metadata][buyer_email]', email);
     params.set('payment_intent_data[metadata][buyer_whatsapp]', whatsapp);
+    if (analyticsSessionId) params.set('payment_intent_data[metadata][analytics_session_id]', analyticsSessionId);
+    if (analyticsVisitorId) params.set('payment_intent_data[metadata][analytics_visitor_id]', analyticsVisitorId);
+    if (analyticsParentSessionId) params.set('payment_intent_data[metadata][analytics_parent_session_id]', analyticsParentSessionId);
     params.set('submit_type', 'pay');
 
     if (offer.id === 'colecao-completa') {
