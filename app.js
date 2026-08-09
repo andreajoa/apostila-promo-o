@@ -208,6 +208,15 @@ function openCheckoutModal(sku) {
   if (!offer) return showToast('Produto inválido.', true);
   activeSku = sku;
 
+  window.maAnalytics?.track('cta_click', {
+    link_id:`comprar-${sku}`,
+    link_label:`Comprar ${offer.name}`,
+    product_id:sku,
+    product_name:offer.name,
+    value_cents:offer.amount,
+    section:document.activeElement?.closest?.('section')?.id || 'oferta',
+  }, true);
+
   const modal = ensureCheckoutModal();
   modal.hidden = false;
   modal.classList.add('is-open');
@@ -238,6 +247,13 @@ async function submitLead(event) {
     whatsapp:form.elements.whatsapp.value,
   }));
 
+  window.maAnalytics?.track('lead_submitted', {
+    product_id:activeSku,
+    product_name:offers[activeSku]?.name || '',
+    value_cents:offers[activeSku]?.amount || 0,
+    section:'checkout',
+  });
+
   const button = form.querySelector('button[type="submit"]');
   const original = button.textContent;
   try {
@@ -257,10 +273,23 @@ async function submitLead(event) {
         const response = await fetch('/api/create-checkout-session', {
           method:'POST',
           headers:{ 'Content-Type':'application/json' },
-          body:JSON.stringify({ sku:activeSku, name, email, whatsapp }),
+          body:JSON.stringify({
+            sku:activeSku,
+            name,
+            email,
+            whatsapp,
+            analytics:window.maAnalytics?.identity?.() || {},
+          }),
         });
         const data = await response.json();
         if (!response.ok || !data.clientSecret) throw new Error(data.error || 'Não foi possível iniciar o pagamento.');
+        window.maAnalytics?.track('checkout_started', {
+          product_id:activeSku,
+          product_name:offers[activeSku].name,
+          value_cents:offers[activeSku].amount,
+          transaction_id:data.sessionId || '',
+          section:'checkout',
+        }, true);
         window.dataLayer?.push({
           event:'begin_checkout',
           ecommerce:{
