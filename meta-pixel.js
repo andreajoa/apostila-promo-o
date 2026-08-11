@@ -3,52 +3,45 @@
   const CONSENT_KEY = 'ma_analytics_consent_v1';
   const pending = [];
   let initialized = false;
+  let consentGranted = safeGet(CONSENT_KEY) === 'granted';
 
-  function send(item) {
-    if (!initialized) { pending.push(item); return true; }
-    if (item.onceKey) {
-      const storageKey = `tdah_pixel_${item.onceKey}`;
-      try {
-        if (localStorage.getItem(storageKey)) return false;
-        window.fbq?.('track', item.eventName, item.parameters, item.options);
-        localStorage.setItem(storageKey, new Date().toISOString());
-        return true;
-      } catch {
-        window.fbq?.('track', item.eventName, item.parameters, item.options);
-        return true;
-      }
-    }
-    window.fbq?.('track', item.eventName, item.parameters, item.options);
-    return true;
+  function safeGet(key) {
+    try { return localStorage.getItem(key); }
+    catch { return null; }
   }
 
-  window.tdahPixel = {
-    id:PIXEL_ID,
-    track(eventName, parameters = {}, options = {}) {
-      return send({ eventName, parameters, options });
-    },
-    trackOnce(onceKey, eventName, parameters = {}, options = {}) {
-      return send({ onceKey, eventName, parameters, options });
-    },
-  };
+  function safeSet(key, value) {
+    try { localStorage.setItem(key, value); return true; }
+    catch { return false; }
+  }
 
-  function init() {
+  function installFbq() {
+    if (window.fbq) return;
+
+    const fbq = function () {
+      fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments);
+    };
+    window.fbq = fbq;
+    window._fbq = fbq;
+    fbq.push = fbq;
+    fbq.loaded = true;
+    fbq.version = '2.0';
+    fbq.queue = [];
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://connect.facebook.net/pt_BR/fbevents.js';
+    document.head.appendChild(script);
+  }
+
+  function initialize() {
     if (initialized) return;
-    initialized = true;
-    if (!window.fbq) {
-      const fbq = function () { fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments); };
-      window.fbq = fbq;
-      fbq.push = fbq;
-      fbq.loaded = true;
-      fbq.version = '2.0';
-      fbq.queue = [];
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://connect.facebook.net/pt_BR/fbevents.js';
-      document.head.appendChild(script);
-    }
+
+    installFbq();
+    window.fbq('consent', consentGranted ? 'grant' : 'revoke');
     window.fbq('init', PIXEL_ID);
     window.fbq('track', 'PageView');
+
     if (location.pathname === '/' || location.pathname === '/index.html') {
       window.fbq('track', 'ViewContent', {
         content_ids:['colecao-completa'],
@@ -59,9 +52,54 @@
         currency:'BRL',
       });
     }
-    pending.splice(0).forEach(send);
+
+    initialized = true;
+    if (consentGranted) flushPending();
   }
 
-  if (localStorage.getItem(CONSENT_KEY) === 'granted') init();
-  else window.addEventListener('ma:analytics-consent', (event) => { if (event.detail === 'granted') init(); });
+  function dispatch(item) {
+    if (!initialized || !consentGranted) {
+      if (item.onceKey && pending.some((queued) => queued.onceKey === item.onceKey)) return false;
+      pending.push(item);
+      return true;
+    }
+
+    if (item.onceKey) {
+      const storageKey = `tdah_pixel_${item.onceKey}`;
+      if (safeGet(storageKey)) return false;
+      window.fbq('track', item.eventName, item.parameters, item.options);
+      safeSet(storageKey, new Date().toISOString());
+      return true;
+    }
+
+    window.fbq('track', item.eventName, item.parameters, item.options);
+    return true;
+  }
+
+  function flushPending() {
+    const queued = pending.splice(0);
+    queued.forEach(dispatch);
+  }
+
+  function updateConsent(value) {
+    initialize();
+    consentGranted = value === 'granted';
+    window.fbq('consent', consentGranted ? 'grant' : 'revoke');
+
+    if (consentGranted) flushPending();
+    else pending.splice(0);
+  }
+
+  window.tdahPixel = {
+    id:PIXEL_ID,
+    track(eventName, parameters = {}, options = {}) {
+      return dispatch({ eventName, parameters, options });
+    },
+    trackOnce(onceKey, eventName, parameters = {}, options = {}) {
+      return dispatch({ onceKey, eventName, parameters, options });
+    },
+  };
+
+  window.addEventListener('ma:analytics-consent', (event) => updateConsent(event.detail));
+  initialize();
 })();
