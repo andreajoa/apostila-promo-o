@@ -1,9 +1,11 @@
 import crypto from 'node:crypto';
-import { getOffer } from './_catalog.js';
+import { CAMPAIGN_ID, getOffer } from './_catalog.js';
 import { sendLibraryEmail } from './_email.js';
 import { recordAnalyticsEvent } from './_analytics.js';
 
 export const config = { api: { bodyParser: false } };
+
+const SITE_ID = 'apostila_combo';
 
 async function readRawBody(request) {
   const chunks = [];
@@ -34,6 +36,15 @@ function verifyStripeSignature(payload, header, secret) {
       return false;
     }
   });
+}
+
+function belongsToApostila(session) {
+  const metadata = session?.metadata || {};
+  if (metadata.site_id === SITE_ID) return true;
+
+  // Compatibilidade com checkouts que já estavam abertos antes da separação:
+  // só aceitamos o padrão legado se campanha E SKU forem da apostila.
+  return metadata.campaign === CAMPAIGN_ID && Boolean(getOffer(String(metadata.sku || '')));
 }
 
 async function deliverPurchaseEmail(session, eventId) {
@@ -85,7 +96,7 @@ async function recordPurchaseAnalytics(session, eventId) {
     product_name:String(offer?.name || session.custom_text?.submit?.message || 'Apostilas Margareth Almeida').slice(0, 500),
     value_cents:Number(session.amount_total || 0),
     transaction_id:String(session.id || '').slice(0, 160),
-  }, 'apostila_combo');
+  }, SITE_ID);
 }
 
 export default async function handler(request, response) {
@@ -113,6 +124,15 @@ export default async function handler(request, response) {
       event.type === 'checkout.session.async_payment_succeeded'
     ) {
       const session = event.data?.object;
+
+      if (!belongsToApostila(session)) {
+        return response.status(200).json({
+          received:true,
+          ignored:true,
+          reason:'foreign_checkout',
+        });
+      }
+
       if (session?.payment_status === 'paid') {
         try {
           await deliverPurchaseEmail(session, event.id);
