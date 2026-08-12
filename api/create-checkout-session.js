@@ -1,6 +1,9 @@
 import { CAMPAIGN_ID, getOffer } from './_catalog.js';
 import { resolveSiteUrl, stripeRequest } from './_stripe.js';
 
+const SITE_ID = 'apostila_combo';
+const PROJECT_ID = 'apostila_promo';
+
 function readBody(request) {
   if (request.body && typeof request.body === 'object') return request.body;
   try { return JSON.parse(request.body || '{}'); } catch { return {}; }
@@ -67,6 +70,8 @@ export default async function handler(request, response) {
     params.set('line_items[0][price_data][unit_amount]', String(offer.amount));
     params.set('line_items[0][price_data][product_data][name]', offer.name);
     params.set('line_items[0][price_data][product_data][description]', offer.description);
+    params.set('metadata[site_id]', SITE_ID);
+    params.set('metadata[project_id]', PROJECT_ID);
     params.set('metadata[sku]', offer.id);
     params.set('metadata[campaign]', CAMPAIGN_ID);
     params.set('metadata[buyer_name]', name);
@@ -78,6 +83,8 @@ export default async function handler(request, response) {
     if (analyticsSource) params.set('metadata[analytics_source]', analyticsSource);
     if (analyticsMedium) params.set('metadata[analytics_medium]', analyticsMedium);
     if (analyticsCampaign) params.set('metadata[analytics_campaign]', analyticsCampaign);
+    params.set('payment_intent_data[metadata][site_id]', SITE_ID);
+    params.set('payment_intent_data[metadata][project_id]', PROJECT_ID);
     params.set('payment_intent_data[metadata][sku]', offer.id);
     params.set('payment_intent_data[metadata][campaign]', CAMPAIGN_ID);
     params.set('payment_intent_data[metadata][buyer_name]', name);
