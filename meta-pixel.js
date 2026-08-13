@@ -3,7 +3,7 @@
   const CONSENT_KEY = 'ma_analytics_consent_v1';
   const pending = [];
   let initialized = false;
-  let consentGranted = safeGet(CONSENT_KEY) === 'granted';
+  let consentGranted = safeGet(CONSENT_KEY) !== 'denied';
 
   function safeGet(key) {
     try { return localStorage.getItem(key); }
