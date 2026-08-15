@@ -1,5 +1,5 @@
 (() => {
-  const PIXEL_ID = '1571718774531079';
+  const PIXEL_ID = '1190062722660898';
   const CONSENT_KEY = 'ma_analytics_consent_v1';
   const pending = [];
   let initialized = false;
