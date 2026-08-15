@@ -253,6 +253,13 @@ async function submitLead(event) {
     value_cents:offers[activeSku]?.amount || 0,
     section:'checkout',
   });
+  window.tdahPixel?.track('Lead', {
+    content_ids:[activeSku],
+    content_name:offers[activeSku]?.name || '',
+    content_type:'product',
+    value: (offers[activeSku]?.amount || 0) / 100,
+    currency:'BRL',
+  });
 
   const button = form.querySelector('button[type="submit"]');
   const original = button.textContent;
