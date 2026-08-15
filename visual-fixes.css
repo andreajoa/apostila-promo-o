@@ -1,0 +1,48 @@
+@import url('/author-photo.css');
+
+.campaign-image img{display:block;width:100%;height:100%;object-fit:cover;color:transparent}
+.hero-visual .campaign-image{min-height:280px;background:linear-gradient(135deg,#f3ded0,#fff8f3)}
+
+/* Cards verticais: o mockup ocupa todo o campo superior e as informações ficam abaixo. */
+.product-card{display:flex!important;flex-direction:column!important;align-items:stretch!important;overflow:hidden;border-radius:26px;background:#fff;box-shadow:0 18px 48px rgba(9,39,75,.11);border:1px solid rgba(9,39,75,.1)}
+.product-mockup-zone{position:relative;display:block;aspect-ratio:4/5;min-height:0!important;padding:0!important;background:linear-gradient(145deg,#fff8f3,#f3ded0);overflow:hidden}
+.spiral-mockup{position:absolute!important;inset:0;width:100%!important;height:100%!important;aspect-ratio:auto!important;border-radius:0!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;box-shadow:none!important;transform:none!important;isolation:auto!important;transition:transform .28s ease}
+.product-card:hover .spiral-mockup{transform:scale(1.025)!important}
+.spiral-mockup:before,.spiral-mockup:after{display:none!important}
+.spiral-mockup img,.spiral-mockup-fallback{display:none!important}
+.product-body{display:flex;flex:1;flex-direction:column;padding:24px 24px 22px!important;background:#fff}
+.product-body h3{margin:9px 0 10px;font-size:clamp(1.45rem,2vw,2rem);line-height:1.03}
+.product-body>p{margin:0;color:#637083;line-height:1.6}
+.product-bottom{margin-top:auto;padding-top:22px}
+
+.product-card:has([data-buy="calma"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=calma')}
+.product-card:has([data-buy="tdah-vida-real"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=tdah-vida-real')}
+.product-card:has([data-buy="durante-a-crise"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=durante-a-crise')}
+.product-card:has([data-buy="crise-protesto-frustracao"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=crise-protesto-frustracao')}
+.product-card:has([data-buy="marcos-desenvolvimento"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=marcos-desenvolvimento')}
+.product-card:has([data-buy="antes-da-crise"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=antes-da-crise')}
+.product-card:has([data-buy="estrategias-coletivas"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=estrategias-coletivas')}
+.product-card:has([data-buy="quadro-emocoes"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=quadro-emocoes')}
+.product-card:has([data-buy="protocolo-luz"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=protocolo-luz')}
+.product-card:has([data-buy="protocolo-ensinar"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=protocolo-ensinar')}
+.product-card:has([data-buy="protocolo-esperanca"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=protocolo-esperanca')}
+.product-card:has([data-buy="protocolo-acolher"]) .spiral-mockup{background-image:url('/api/mockup-cover?id=protocolo-acolher')}
+
+.checkout-conversion-banner .campaign-image{min-height:340px;background:#f3ded0}
+.downsell-panel .campaign-image,.post-offer .campaign-image{min-height:220px;background:#f3ded0}
+
+/* Corrige a lista de benefícios da oferta.
+   A regra original estiliza todo span como o círculo do check; o texto precisa ser livre. */
+.check-list li{align-items:start;min-width:0;column-gap:12px;line-height:1.5}
+.check-list li>span:first-child{flex:none;width:25px!important;height:25px!important;border-radius:50%!important;background:rgba(166,75,42,.12)!important;color:var(--terra)!important;display:grid!important;place-items:center!important;font-weight:900!important;line-height:1!important;margin-top:2px}
+.check-list li>.check-text{width:auto!important;height:auto!important;min-width:0!important;border-radius:0!important;background:transparent!important;color:#4f5e70!important;display:block!important;place-items:initial!important;font-weight:400!important;line-height:1.55!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important}
+.check-list li>.check-text strong{display:inline;color:var(--terra);font-weight:900}
+
+@media(max-width:1120px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .catalog-grid{grid-template-columns:1fr}
+  .product-card{max-width:520px;width:100%;margin-inline:auto}
+  .product-mockup-zone{aspect-ratio:4/5}
+  .check-list{gap:18px}
+  .check-list li{grid-template-columns:28px minmax(0,1fr);column-gap:11px}
+}

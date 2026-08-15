@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "format": "webp",
+  "brand": {
+    "palette": ["#09274B", "#A64B2A", "#C88664", "#F3DED0", "#B98B76", "#FFF8F3"],
+    "style": "ilustracao editorial infantil elegante, acolhedora, inclusiva, com formas suaves, cenas do cotidiano e boa legibilidade",
+    "rules": [
+      "nao usar simbolo de quebra-cabeca como representacao principal do autismo",
+      "nao representar crise como desobediencia ou agressividade caricata",
+      "mostrar diferentes formas de comunicacao, incluindo gesto, CAA, escrita e fala",
+      "manter diversidade de pele, genero, idade e configuracao familiar",
+      "nao inserir textos longos dentro das ilustracoes"
+    ]
+  },
+  "sharedAssets": [
+    "shared/icone-pausa.webp",
+    "shared/icone-ajuda.webp",
+    "shared/icone-sair.webp",
+    "shared/icone-dor.webp",
+    "shared/icone-fones.webp",
+    "shared/icone-agua.webp",
+    "shared/icone-banheiro.webp",
+    "shared/icone-primeiro-depois.webp",
+    "shared/icone-temporizador.webp",
+    "shared/icone-caa.webp",
+    "shared/icone-corpo.webp",
+    "shared/icone-ambiente.webp",
+    "shared/icone-comunicacao.webp",
+    "shared/icone-escola.webp",
+    "shared/icone-familia.webp",
+    "shared/icone-rede-de-apoio.webp"
+  ],
+  "apostilas": [
+    {
+      "slug": "calma",
+      "title": "Apostila CALMA",
+      "driveId": "1nkdWZ3nCIk4zkFsr3XolW8chM5QOBHsz",
+      "images": [
+        {"file": "calma/calma-01-capa-familia-em-regulacao.webp", "use": "capa", "scene": "adulto e crianca em ambiente seguro, com comunicacao visual e clima de reconexao"},
+        {"file": "calma/calma-02-adulto-reduzindo-carga.webp", "use": "abertura", "scene": "adulto diminuindo luz, fala e exigencias enquanto oferece pausa"},
+        {"file": "calma/calma-03-protocolo-cinco-movimentos.webp", "use": "protocolo", "scene": "infografico visual dos cinco movimentos C-A-L-M-A"},
+        {"file": "calma/calma-04-frases-que-orientam.webp", "use": "situacoes praticas", "scene": "duas cenas comparativas: fala que aumenta carga e comunicacao curta que orienta"},
+        {"file": "calma/calma-05-cuidador-pausa-e-reparo.webp", "use": "quem cuida", "scene": "cuidador fazendo pausa, pedindo troca e depois reparando o vinculo"},
+        {"file": "calma/calma-06-plano-calma-preenchivel.webp", "use": "atividade", "scene": "prancheta ludica com sinais, recursos e plano de sete dias"}
+      ]
+    },
+    {
+      "slug": "tdah-vida-real",
+      "title": "TDAH na Vida Real",
+      "driveId": "19_slnxzXZc8GYXzZPXVs4cKu6lUgfs2V",
+      "images": [
+        {"file": "tdah-vida-real/tdah-01-capa-rotina-visivel.webp", "use": "capa", "scene": "crianca e adolescente usando rotina visual, temporizador e checklist"},
+        {"file": "tdah-vida-real/tdah-02-funcoes-executivas-no-dia-a-dia.webp", "use": "conceitos", "scene": "atencao, memoria de trabalho, inicio, tempo e inibicao representados em situacoes reais"},
+        {"file": "tdah-vida-real/tdah-03-primeiro-passo-e-tempo-visual.webp", "use": "casa", "scene": "adulto deixa o primeiro passo visivel e usa temporizador sem bronca"},
+        {"file": "tdah-vida-real/tdah-04-estudo-em-blocos.webp", "use": "estudo", "scene": "mesa organizada com ciclo definir, comecar, agir, pausar e fechar"},
+        {"file": "tdah-vida-real/tdah-05-sala-de-aula-acessivel.webp", "use": "escola", "scene": "professora oferecendo instrucao curta, material-base e forma alternativa de resposta"},
+        {"file": "tdah-vida-real/tdah-06-registro-quatorze-dias.webp", "use": "registro", "scene": "planner de sono, situacao-alvo, apoio e resultado"}
+      ]
+    },
+    {
+      "slug": "durante-a-crise",
+      "title": "Durante a Crise",
+      "driveId": "1c_dl51PdK94FeVA_5ng5TPdUExBLUSeU",
+      "images": [
+        {"file": "durante-a-crise/durante-a-crise-01-capa-baixa-exigencia.webp", "use": "capa", "scene": "adulto presente a distancia respeitosa em ambiente de baixa estimulacao"},
+        {"file": "durante-a-crise/durante-a-crise-02-primeiros-sessenta-segundos.webp", "use": "plano inicial", "scene": "sequencia visual dos cinco passos dos primeiros sessenta segundos"},
+        {"file": "durante-a-crise/durante-a-crise-03-ambiente-seguro-com-saida.webp", "use": "seguranca", "scene": "espaco aberto, riscos afastados e rota de saida preservada"},
+        {"file": "durante-a-crise/durante-a-crise-04-preferencias-sensoriais.webp", "use": "preferencias", "scene": "opcoes de distancia, luz, som, movimento, toque e comunicacao"},
+        {"file": "durante-a-crise/durante-a-crise-05-recuperacao-pos-crise.webp", "use": "depois", "scene": "agua, repouso, privacidade e reconexao sem cobranca"},
+        {"file": "durante-a-crise/durante-a-crise-06-cartao-rapido.webp", "use": "cartao", "scene": "cartao visual com seguranca, menos carga, comunicacao e recuperacao"}
+      ]
+    },
+    {
+      "slug": "crise-protesto-frustracao",
+      "title": "Crise, Protesto ou Frustracao?",
+      "driveId": "1ApHY6QFgLhFnT-kOe89lHm_c53nTDga9",
+      "images": [
+        {"file": "crise-protesto-frustracao/crise-protesto-01-capa-observar-sem-rotular.webp", "use": "capa", "scene": "adulto observa contexto e sinais corporais antes de interpretar"},
+        {"file": "crise-protesto-frustracao/crise-protesto-02-quatro-perguntas.webp", "use": "observacao", "scene": "quatro quadros sobre antes, processamento, corpo e recuperacao"},
+        {"file": "crise-protesto-frustracao/crise-protesto-03-comparacao-sem-simplificar.webp", "use": "comparacao", "scene": "infografico equilibrado comparando possivel crise e possivel frustracao"},
+        {"file": "crise-protesto-frustracao/crise-protesto-04-tablet-duas-respostas.webp", "use": "exemplo", "scene": "mesmo limite do tablet em dois contextos diferentes"},
+        {"file": "crise-protesto-frustracao/crise-protesto-05-mercado-saida-segura.webp", "use": "exemplo", "scene": "familia prioriza saida e seguranca em mercado cheio"},
+        {"file": "crise-protesto-frustracao/crise-protesto-06-registro-abc-ampliado.webp", "use": "registro", "scene": "ficha visual A-B-C com contexto, comportamento, resposta e proximo teste"}
+      ]
+    },
+    {
+      "slug": "marcos-desenvolvimento",
+      "title": "Marcos do Desenvolvimento",
+      "driveId": "1Mo5KknjryiY6-9v3uIK6PDZoEEmQ7JYD",
+      "images": [
+        {"file": "marcos-desenvolvimento/marcos-01-capa-linha-do-tempo-zero-a-cinco.webp", "use": "capa", "scene": "linha do tempo inclusiva do bebe ate cinco anos"},
+        {"file": "marcos-desenvolvimento/marcos-02-bebe-dois-a-seis-meses.webp", "use": "primeiro semestre", "scene": "sons, sorriso social, exploracao das maos e brincar no chao"},
+        {"file": "marcos-desenvolvimento/marcos-03-bebe-nove-a-doze-meses.webp", "use": "9 a 12 meses", "scene": "atencao compartilhada, gestos, recipientes e mobilidade segura"},
+        {"file": "marcos-desenvolvimento/marcos-04-crianca-dezoito-a-vinte-quatro-meses.webp", "use": "18 a 24 meses", "scene": "apontar, imitar tarefa, carrinho, colher e escolhas simples"},
+        {"file": "marcos-desenvolvimento/marcos-05-crianca-tres-anos-brincadeira.webp", "use": "3 anos", "scene": "conversa curta, faz de conta, turnos e movimento"},
+        {"file": "marcos-desenvolvimento/marcos-06-crianca-quatro-a-cinco-anos.webp", "use": "4 e 5 anos", "scene": "historia, regras, desenho, letras, numeros e participacao"},
+        {"file": "marcos-desenvolvimento/marcos-07-sinais-para-agir-cedo.webp", "use": "orientacao", "scene": "familia registrando preocupacoes e procurando avaliacao sem alarmismo"}
+      ]
+    },
+    {
+      "slug": "antes-da-crise",
+      "title": "Antes da Crise",
+      "driveId": "1j9-QkHXMmAl4LfNxjd48Usl652frVAr8",
+      "images": [
+        {"file": "antes-da-crise/antes-da-crise-01-capa-mapa-de-sinais.webp", "use": "capa", "scene": "crianca com sinais graduais de sobrecarga e adulto percebendo cedo"},
+        {"file": "antes-da-crise/antes-da-crise-02-corpo-ambiente-comunicacao.webp", "use": "tres lentes", "scene": "tres paineis sobre corpo, ambiente e comunicacao"},
+        {"file": "antes-da-crise/antes-da-crise-03-protocolo-antes.webp", "use": "protocolo", "scene": "infografico dos cinco movimentos A-N-T-E-S"},
+        {"file": "antes-da-crise/antes-da-crise-04-mapa-cores-regulacao.webp", "use": "mapa", "scene": "estados verde, amarelo, laranja, vermelho e azul sem caricatura"},
+        {"file": "antes-da-crise/antes-da-crise-05-transicao-primeiro-depois.webp", "use": "previsibilidade", "scene": "rotina primeiro-depois, temporizador e duas escolhas"},
+        {"file": "antes-da-crise/antes-da-crise-06-kit-de-regulacao.webp", "use": "kit", "scene": "fones, agua, cartao de pausa, objeto preferido, lanche e CAA"},
+        {"file": "antes-da-crise/antes-da-crise-07-plano-preventivo.webp", "use": "plano", "scene": "plano compartilhado entre familia, escola e profissionais"}
+      ]
+    },
+    {
+      "slug": "estrategias-coletivas",
+      "title": "Estrategias Coletivas para Sala",
+      "driveId": "1aZYxic5rBy_kOZUKW-z_V4cIRpYYwdr9",
+      "images": [
+        {"file": "estrategias-coletivas/estrategias-coletivas-01-capa-sala-inclusiva.webp", "use": "capa", "scene": "turma diversa participando em sala previsivel e acolhedora"},
+        {"file": "estrategias-coletivas/estrategias-coletivas-02-entrada-e-instrucao-visivel.webp", "use": "pilares 1 e 2", "scene": "rotina de chegada e exemplo visual da atividade"},
+        {"file": "estrategias-coletivas/estrategias-coletivas-03-escolhas-e-pausa-acessivel.webp", "use": "pilares 3 e 4", "scene": "duas formas de participar e canto de pausa disponivel para todos"},
+        {"file": "estrategias-coletivas/estrategias-coletivas-04-cooperacao-e-fechamento.webp", "use": "pilares 5 e 6", "scene": "dupla com papeis claros e revisao final da rotina"},
+        {"file": "estrategias-coletivas/estrategias-coletivas-05-atividades-rapidas.webp", "use": "atividades", "scene": "mapa de sons, construcao coletiva, busca visual, desenho e movimento"},
+        {"file": "estrategias-coletivas/estrategias-coletivas-06-plano-da-turma.webp", "use": "registro", "scene": "planner semanal de barreira, resposta testada e participacao"}
+      ]
+    },
+    {
+      "slug": "quadro-emocoes",
+      "title": "Quadro de Emocoes da Semana",
+      "driveId": "19_MYVZFkJ6CxI80P6EepPKw6QYFcCDl7",
+      "images": [
+        {"file": "quadro-emocoes/quadro-emocoes-01-capa-semana-por-dentro.webp", "use": "capa", "scene": "crianca escolhendo cores e simbolos para contar como foi a semana"},
+        {"file": "quadro-emocoes/quadro-emocoes-02-emocao-corpo-contexto-apoio.webp", "use": "conceito", "scene": "quatro elementos conectados: emocao, corpo, contexto e apoio"},
+        {"file": "quadro-emocoes/quadro-emocoes-03-cartoes-de-emocoes.webp", "use": "recurso", "scene": "cartoes com feliz, calmo, curioso, cansado, preocupado, frustrado, triste e sobrecarregado"},
+        {"file": "quadro-emocoes/quadro-emocoes-04-quadro-semanal-preenchivel.webp", "use": "atividade", "scene": "quadro de segunda a domingo com cor, corpo, acontecimento e apoio"},
+        {"file": "quadro-emocoes/quadro-emocoes-05-conversa-de-fechamento.webp", "use": "fechamento", "scene": "adulto e crianca revisam a semana sem julgamento"},
+        {"file": "quadro-emocoes/quadro-emocoes-06-privacidade-e-consentimento.webp", "use": "privacidade", "scene": "crianca escolhe quem pode ver seu registro emocional"}
+      ]
+    },
+    {
+      "slug": "protocolo-luz",
+      "title": "Protocolo LUZ",
+      "driveId": "1PnmMoATidxdAffjJd-oM-xdvKZ66LkIl",
+      "images": [
+        {"file": "protocolo-luz/protocolo-luz-01-capa-caminho-com-luz.webp", "use": "capa", "scene": "familia diante de um caminho iluminado por tres passos possiveis"},
+        {"file": "protocolo-luz/protocolo-luz-02-ler-a-crianca-real.webp", "use": "L", "scene": "adulto observa interesses, comunicacao, habilidades e necessidades"},
+        {"file": "protocolo-luz/protocolo-luz-03-unir-rede-confiavel.webp", "use": "U", "scene": "familia, escola, UBS e profissional conectados em rede"},
+        {"file": "protocolo-luz/protocolo-luz-04-zelar-vinculo-e-cuidador.webp", "use": "Z", "scene": "brincadeira, afeto, descanso e divisao de tarefas"},
+        {"file": "protocolo-luz/protocolo-luz-05-mapa-proximo-passo.webp", "use": "atividade", "scene": "prancheta com preocupacao, habilidade e proxima acao"}
+      ]
+    },
+    {
+      "slug": "protocolo-ensinar",
+      "title": "Protocolo ENSINAR",
+      "driveId": "1fjHevluwHJl0cDKRYx43L5a4hGhReroI",
+      "images": [
+        {"file": "protocolo-ensinar/protocolo-ensinar-01-capa-acesso-e-participacao.webp", "use": "capa", "scene": "alunos demonstrando aprendizagem por fala, apontar, escrita, objetos e CAA"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-02-escutar-e-normalizar-apoios.webp", "use": "E e N", "scene": "professora reconhece gestos e CAA e oferece apoio sem transformar em premio"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-03-simplificar-sem-empobrecer.webp", "use": "S", "scene": "mesmo objetivo pedagogico dividido em passos visiveis"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-04-protagonismo-e-escolhas.webp", "use": "I", "scene": "aluno escolhe papel e forma de contribuir"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-05-seguranca-ambiente-avaliacao.webp", "use": "N e A", "scene": "ambiente previsivel e avaliacao em formatos acessiveis"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-06-planejamento-acessivel.webp", "use": "planejamento", "scene": "mapa visual de objetivo, entrada, participacao, tempo, ambiente e avaliacao"},
+        {"file": "protocolo-ensinar/protocolo-ensinar-07-registro-pedagogico.webp", "use": "registro", "scene": "professora registra barreira, apoio, participacao e evidencia"}
+      ]
+    },
+    {
+      "slug": "protocolo-esperanca",
+      "title": "Protocolo ESPERANCA",
+      "driveId": "1t6BdS9gbBlKoUv2izkwXnZxBGlcFE6m1",
+      "images": [
+        {"file": "protocolo-esperanca/protocolo-esperanca-01-capa-rede-de-apoio.webp", "use": "capa", "scene": "familia cercada por uma rede de apoio concreta e acolhedora"},
+        {"file": "protocolo-esperanca/protocolo-esperanca-02-escutar-alem-da-fala.webp", "use": "E e S", "scene": "adulto percebe gesto, corpo, silencio, repeticao e CAA"},
+        {"file": "protocolo-esperanca/protocolo-esperanca-03-prever-e-ensinar-no-tempo.webp", "use": "P e E", "scene": "mudanca antecipada e atividade adaptada ao tempo disponivel"},
+        {"file": "protocolo-esperanca/protocolo-esperanca-04-reconectar-e-apoiar-em-rede.webp", "use": "R e A", "scene": "reconexao familiar e divisao de tarefas entre adultos"},
+        {"file": "protocolo-esperanca/protocolo-esperanca-05-cuidar-de-quem-cuida.webp", "use": "N e C", "scene": "cuidador nomeia sem impor e recebe descanso e apoio"},
+        {"file": "protocolo-esperanca/protocolo-esperanca-06-rede-de-apoio-concreta.webp", "use": "atividade", "scene": "mapa de pessoas, tipo de ajuda, momento de acionar e contato"}
+      ]
+    },
+    {
+      "slug": "protocolo-acolher",
+      "title": "Protocolo ACOLHER",
+      "driveId": "1DgDFP-sT-EmE7joxes3hW9KKxuBXsPp1",
+      "images": [
+        {"file": "protocolo-acolher/protocolo-acolher-01-capa-presenca-segura.webp", "use": "capa", "scene": "adulto oferece presenca segura sem impor toque ou proximidade"},
+        {"file": "protocolo-acolher/protocolo-acolher-02-aproximar-e-compreender-contexto.webp", "use": "A e C", "scene": "adulto se aproxima devagar e verifica dor, sono, fome, espera e ambiente"},
+        {"file": "protocolo-acolher/protocolo-acolher-03-observar-e-limitar-carga.webp", "use": "O e L", "scene": "comunicacao pelo corpo e ambiente com menos luz, fala e exigencia"},
+        {"file": "protocolo-acolher/protocolo-acolher-04-humanizar-e-ensinar-depois.webp", "use": "H e E", "scene": "recuperacao seguida de ensino de pausa, ajuda e sair"},
+        {"file": "protocolo-acolher/protocolo-acolher-05-cartao-trinta-segundos.webp", "use": "cartao", "scene": "cartao visual com os sete movimentos A-C-O-L-H-E-R"},
+        {"file": "protocolo-acolher/protocolo-acolher-06-plano-individual.webp", "use": "atividade", "scene": "ficha com primeiros sinais, distancia, recursos, toques, riscos e cuidado posterior"}
+      ]
+    }
+  ]
+}
