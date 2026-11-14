@@ -1,4 +1,4 @@
-export const RESEND_FROM = 'Apostilas Margareth Almeida <noreply@adhdautism.online>';
+export const RESEND_FROM = 'Apostilas Margareth Almeida <noreply@caaneuro.online>';
 
 function escapeHtml(value) {
   return String(value || '').replace(/[&<>'"]/g, (char) => ({
